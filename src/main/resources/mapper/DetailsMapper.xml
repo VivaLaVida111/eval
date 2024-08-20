@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.eval.mapper.DetailsMapper">
+    <select id="countScore" resultType="com.example.eval.entity.EvalResult">
+        SELECT street, 100.0 + sum(subtotal) as score, #{start} as startTime, #{end} as endTime
+        from details
+        WHERE `time` between #{start} and #{end}
+        <if test="street != null and street != ''">
+            and street= #{street}
+        </if>
+        group by street
+    </select>
+</mapper>

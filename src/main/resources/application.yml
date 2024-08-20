@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    username: root
+    password: jinNIU123456!
+    url: jdbc:mysql://101.37.246.72:3306/eval?useSSL=true&serverTimezone=UTC
+    #url: jdbc:mysql://localhost:3306/dumpsite?useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8872
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  #JWT加解密使用的密钥
+  secret: cubdncudbvkocjzocdsopsccnjxcnjdaeoqmxqlkxascicnzjcievmxnvdoaskxnnv
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: Bearer  #JWT负载中拿到开头
+
+
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

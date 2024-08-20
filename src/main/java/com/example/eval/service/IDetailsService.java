@@ -1,0 +1,23 @@
+package com.example.eval.service;
+
+import com.example.eval.entity.Details;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.eval.entity.DetailsFront;
+import com.example.eval.entity.EvalResult;
+
+import java.util.List;
+
+/**
+ * <p>
+ * 考评成绩明细表 服务类
+ * </p>
+ *
+ * @author luo
+ * @since 2024-06-14
+ */
+public interface IDetailsService extends IService<Details> {
+    List<DetailsFront> findAll();
+    List<DetailsFront> findByStreet(String street);
+    List<DetailsFront> findByTime(String start, String end, String street);
+    List<EvalResult> countScore(String start, String end);
+}
