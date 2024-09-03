@@ -10,4 +10,16 @@
         </if>
         group by street
     </select>
+
+    <select id="getBigRulesStatistics" resultType="com.example.eval.entity.BigRulesStatistics">
+        SELECT br.id, br.item, grouped_data.score
+        FROM (
+                 SELECT big_rules_id, SUM(d.subtotal) AS score
+                 FROM details d
+                 WHERE `time` BETWEEN #{start} AND #{end}
+                 GROUP BY big_rules_id
+             ) AS grouped_data
+        LEFT JOIN big_rules br
+        ON grouped_data.big_rules_id = br.id
+    </select>
 </mapper>

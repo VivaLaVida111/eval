@@ -1,6 +1,7 @@
 package com.example.eval.controller;
 
 
+import com.example.eval.entity.BigRulesStatistics;
 import com.example.eval.entity.Details;
 import com.example.eval.entity.DetailsFront;
 import com.example.eval.entity.EvalResult;
@@ -39,6 +40,16 @@ public class DetailsController {
     @GetMapping("/score/{start}/{end}")
     public List<EvalResult> countScore(@PathVariable String start, @PathVariable String end) {
         return detailsService.countScore(start, end);
+    }
+
+    @GetMapping("/bigRulesStatistics/{start}/{end}")
+    public List<BigRulesStatistics> getBigRulesStatistics(@PathVariable String start, @PathVariable String end) {
+        return detailsService.getBigRulesStatistics(start, end);
+    }
+
+    @PostMapping("/add")
+    public Boolean add(@RequestBody Details detail) {
+        return detailsService.add(detail);
     }
 }
 

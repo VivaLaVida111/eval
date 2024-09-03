@@ -1,6 +1,7 @@
 package com.example.eval.mapper;
 
 import com.example.eval.entity.Details;
+import com.example.eval.entity.BigRulesStatistics;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.eval.entity.EvalResult;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,4 +20,6 @@ import java.util.List;
 @Mapper
 public interface DetailsMapper extends BaseMapper<Details> {
     List<EvalResult> countScore(@Param("start") String start, @Param("end") String end, @Param("street") String street);
+
+    List<BigRulesStatistics> getBigRulesStatistics(@Param("start") String start, @Param("end") String end);
 }

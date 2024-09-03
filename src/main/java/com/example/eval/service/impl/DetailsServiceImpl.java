@@ -30,11 +30,23 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
     private BigRulesMapper bigRulesMapper;
     @Resource
     private SmallRulesMapper smallRulesMapper;
+
+    @Override
+    public Boolean add(Details detail) {
+        return detailsMapper.insert(detail) > 0;
+    }
+
+    @Override
+    public List<BigRulesStatistics> getBigRulesStatistics(String start, String end) {
+        return detailsMapper.getBigRulesStatistics(start, end);
+    }
+
     /**
      * 根据街道名称查找详情
      * @param street 街道名称
      * @return 符合条件的Details列表
      */
+    @Override
     public List<DetailsFront> findByStreet(String street) {
         QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("street", street);
@@ -46,6 +58,7 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
      * @param `time` 时间戳
      * @return 符合条件的Details列表
      */
+    @Override
     public List<DetailsFront> findByTime(String start, String end, String street) {
         QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
         queryWrapper.ge("`time`", start);
@@ -64,10 +77,12 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
         return detailsFrontList;
     }
 
+    @Override
     public List<DetailsFront> findAll() {
         return parse(detailsMapper.selectList(null));
     }
 
+    @Override
     public List<EvalResult> countScore(String start, String end) {
         // 13个街道依次是：金泉街道，天回镇街道，五块石街道，抚琴街道，西华街道，营门口街道，凤凰山街道，荷花池街道，九里堤街道，沙河源街道，驷马桥街道，西安路街道，茶店子街道。
         List<String> streetNames = Arrays.asList(
