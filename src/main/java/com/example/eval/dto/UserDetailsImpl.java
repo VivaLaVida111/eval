@@ -30,7 +30,7 @@ public class UserDetailsImpl implements UserDetails {
         //返回当前用户的权限
         return roleList.stream()
                 .filter(role -> role.getName()!=null)
-                .map(role ->new SimpleGrantedAuthority(role.getSystem() + ":" + role.getName()))
+                .map(role ->new SimpleGrantedAuthority("考评系统" + ":" + role.getName()))
                 .collect(Collectors.toList());
     }
 

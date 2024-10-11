@@ -1,12 +1,15 @@
 package com.example.eval.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.eval.dto.UserPermission;
 import com.example.eval.entity.*;
 import com.example.eval.mapper.BigRulesMapper;
 import com.example.eval.mapper.DetailsMapper;
 import com.example.eval.mapper.SmallRulesMapper;
+import com.example.eval.service.AuthService;
 import com.example.eval.service.IDetailsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.eval.service.InfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,10 +33,29 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
     private BigRulesMapper bigRulesMapper;
     @Resource
     private SmallRulesMapper smallRulesMapper;
+    @Resource
+    private AuthService authService;
+    @Resource
+    private InfoService infoService;
 
     @Override
     public Boolean add(Details detail) {
-        return detailsMapper.insert(detail) > 0;
+        Map<String, String> infoMap = infoService.getInfo();
+        String name = infoMap.get("name");
+        List<UserPermission> permissions = authService.getSelfRoleList(name);
+        QueryWrapper<BigRules> bigRulesQueryWrapper = new QueryWrapper<>();
+        bigRulesQueryWrapper.eq("id", detail.getBigRulesId());
+        BigRules bigRules = bigRulesMapper.selectOne(bigRulesQueryWrapper);
+        for(UserPermission permission : permissions) {
+            List<Role> roles = permission.getRoleList();
+            for (Role role : roles) {
+                String roleName = role.getName();
+                if (roleName.equals(bigRules.getItem()) || roleName.equals("管理者")) {
+                    return detailsMapper.insert(detail) > 0;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
