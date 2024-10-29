@@ -11,6 +11,7 @@ import com.example.eval.service.IDetailsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.eval.service.InfoService;
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -81,22 +82,37 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
      * @return 符合条件的Details列表
      */
     @Override
-    public List<DetailsFront> findByTime(String start, String end, String street) {
+    public Page<DetailsFront> findByTime(String start, String end, String street, int pageNum, int pageSize) {
+        // 创建查询条件
         QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
         queryWrapper.ge("`time`", start);
         queryWrapper.le("`time`", end);
         if (street != null && !street.equals("")) {
             queryWrapper.eq("street", street);
         }
-        List<DetailsFront> detailsFrontList = parse(detailsMapper.selectList(queryWrapper));
+
+        // 创建分页对象
+        Page<Details> page = new Page<>(pageNum, pageSize);
+
+        // 执行分页查询
+        Page<Details> resultPage = detailsMapper.selectPage(page, queryWrapper);
+
+        // 解析查询结果
+        List<DetailsFront> detailsFrontList = parse(resultPage.getRecords());
+
+        // 计算总计
         DetailsFront total = new DetailsFront();
         total.setStreet(street);
         total.setRemark("总计");
-        // subtotal为负数
         total.setSubtotal(100.0 + detailsFrontList.stream().mapToDouble(DetailsFront::getSubtotal).sum());
         detailsFrontList.add(total);
 
-        return detailsFrontList;
+        // 将解析后的列表封装到新的 Page 对象中
+        Page<DetailsFront> resultFrontPage = new Page<>(pageNum, pageSize, resultPage.isSearchCount());
+        resultFrontPage.setTotal(resultPage.getTotal());
+        resultFrontPage.setRecords(detailsFrontList);
+
+        return resultFrontPage;
     }
 
     @Override

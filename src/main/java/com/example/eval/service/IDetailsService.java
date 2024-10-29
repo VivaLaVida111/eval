@@ -1,5 +1,6 @@
 package com.example.eval.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.eval.entity.BigRulesStatistics;
 import com.example.eval.entity.Details;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -19,7 +20,7 @@ import java.util.List;
 public interface IDetailsService extends IService<Details> {
     List<DetailsFront> findAll();
     List<DetailsFront> findByStreet(String street);
-    List<DetailsFront> findByTime(String start, String end, String street);
+    Page<DetailsFront> findByTime(String start, String end, String street, int pageNum, int pageSize);
     List<EvalResult> countScore(String start, String end);
 
     Boolean add(Details detail);

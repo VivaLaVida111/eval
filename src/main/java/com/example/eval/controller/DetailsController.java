@@ -1,6 +1,7 @@
 package com.example.eval.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.eval.entity.BigRulesStatistics;
 import com.example.eval.entity.Details;
 import com.example.eval.entity.DetailsFront;
@@ -32,9 +33,9 @@ public class DetailsController {
     public List<DetailsFront> findByStreet(@PathVariable String street) {
         return detailsService.findByStreet(street);
     }
-    @GetMapping("/period/{start}/{end}")
-    public List<DetailsFront> findByTime(@PathVariable String start, @PathVariable String end, @RequestParam(required = false, defaultValue = "") String street) {
-        return detailsService.findByTime(start, end, street);
+    @GetMapping("/period/{start}/{end}/{pageNum}/{pageSize}")
+    public Page<DetailsFront> findByTime(@PathVariable String start, @PathVariable String end, @PathVariable Integer pageNum, @PathVariable Integer pageSize, @RequestParam(required = false, defaultValue = "") String street) {
+        return detailsService.findByTime(start, end, street, pageNum, pageSize);
     }
 
     @GetMapping("/score/{start}/{end}")
