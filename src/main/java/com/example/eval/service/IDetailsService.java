@@ -25,5 +25,9 @@ public interface IDetailsService extends IService<Details> {
 
     Boolean add(Details detail);
 
+    Boolean delete(Details detail);
+
+    Boolean update(Details detail);
+
     List<BigRulesStatistics> getBigRulesStatistics(String start, String end);
 }

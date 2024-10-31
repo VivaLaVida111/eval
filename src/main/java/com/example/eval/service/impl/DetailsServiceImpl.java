@@ -39,8 +39,7 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
     @Resource
     private InfoService infoService;
 
-    @Override
-    public Boolean add(Details detail) {
+    private Boolean checkPermission(Details detail) {
         Map<String, String> infoMap = infoService.getInfo();
         String name = infoMap.get("name");
         List<UserPermission> permissions = authService.getSelfRoleList(name);
@@ -52,9 +51,33 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
             for (Role role : roles) {
                 String roleName = role.getName();
                 if (roleName.equals(bigRules.getItem()) || roleName.equals("管理者")) {
-                    return detailsMapper.insert(detail) > 0;
+                    return true;
                 }
             }
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean add(Details detail) {
+        if(checkPermission(detail)) {
+            return detailsMapper.insert(detail) > 0;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean delete(Details detail) {
+        if(checkPermission(detail)) {
+            return detailsMapper.deleteById(detail.getId()) > 0;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean update(Details detail) {
+        if(checkPermission(detail)) {
+            return detailsMapper.updateById(detail) > 0;
         }
         return false;
     }
@@ -101,11 +124,11 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
         List<DetailsFront> detailsFrontList = parse(resultPage.getRecords());
 
         // 计算总计
-        DetailsFront total = new DetailsFront();
-        total.setStreet(street);
-        total.setRemark("总计");
-        total.setSubtotal(100.0 + detailsFrontList.stream().mapToDouble(DetailsFront::getSubtotal).sum());
-        detailsFrontList.add(total);
+//        DetailsFront total = new DetailsFront();
+//        total.setStreet(street);
+//        total.setRemark("总计");
+//        total.setSubtotal(100.0 + detailsFrontList.stream().mapToDouble(DetailsFront::getSubtotal).sum());
+//        detailsFrontList.add(total);
 
         // 将解析后的列表封装到新的 Page 对象中
         Page<DetailsFront> resultFrontPage = new Page<>(pageNum, pageSize, resultPage.isSearchCount());

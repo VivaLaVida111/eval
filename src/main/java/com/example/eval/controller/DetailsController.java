@@ -52,5 +52,15 @@ public class DetailsController {
     public Boolean add(@RequestBody Details detail) {
         return detailsService.add(detail);
     }
+
+    @PostMapping("/delete")
+    public Boolean delete(@RequestBody Details detail) {
+        return detailsService.delete(detail);
+    }
+
+    @PostMapping("/update")
+    public Boolean update(@RequestBody Details detail) {
+        return detailsService.updateById(detail);
+    }
 }
 
