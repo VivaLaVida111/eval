@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author luo
- * @since 2024-06-14
+ * @since 2024-11-04
  */
 @Mapper
 public interface SmallRulesMapper extends BaseMapper<SmallRules> {

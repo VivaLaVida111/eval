@@ -1,12 +1,11 @@
 package com.example.eval.controller;
 
 
+import com.example.eval.entity.BigRules;
 import com.example.eval.entity.DetailRules;
+import com.example.eval.entity.Details;
 import com.example.eval.service.IBigRulesService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -28,6 +27,21 @@ public class BigRulesController {
     @GetMapping("/getDetailRules")
     public List<DetailRules> getDetailRules() {
         return bigRulesService.getDetailRules();
+    }
+
+    @PostMapping("/add")
+    public Boolean add(@RequestBody BigRules bigRules) {
+        return bigRulesService.add(bigRules);
+    }
+
+    @PostMapping("/update")
+    public Boolean update(@RequestBody BigRules bigRules) {
+        return bigRulesService.update(bigRules);
+    }
+
+    @PostMapping("/delete")
+    public Boolean delete(@RequestBody BigRules bigRules) {
+        return bigRulesService.delete(bigRules);
     }
 
 }

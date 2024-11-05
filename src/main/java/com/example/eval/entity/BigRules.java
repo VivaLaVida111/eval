@@ -15,7 +15,7 @@ import lombok.Setter;
  * </p>
  *
  * @author luo
- * @since 2024-06-14
+ * @since 2024-11-04
  */
 @Getter
 @Setter
@@ -33,6 +33,9 @@ public class BigRules implements Serializable {
 
       @ApiModelProperty("百分比")
       private Double percentage;
+
+      @ApiModelProperty("删除表示位")
+      private Boolean deleted;
 
 
 }

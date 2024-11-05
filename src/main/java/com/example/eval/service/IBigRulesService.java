@@ -16,4 +16,10 @@ import java.util.List;
  */
 public interface IBigRulesService extends IService<BigRules> {
     List<DetailRules> getDetailRules();
+
+    Boolean update(BigRules bigRules);
+
+    Boolean add(BigRules bigRules);
+
+    Boolean delete(BigRules bigRules);
 }

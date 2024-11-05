@@ -15,7 +15,7 @@ import lombok.Setter;
  * </p>
  *
  * @author luo
- * @since 2024-06-14
+ * @since 2024-11-04
  */
 @Getter
 @Setter
@@ -36,6 +36,9 @@ public class SmallRules implements Serializable {
 
       @ApiModelProperty("所属大项的id")
       private Integer parentId;
+
+      @ApiModelProperty("删除表示位")
+      private Boolean deleted;
 
 
 }

@@ -32,17 +32,17 @@ public class InfoServiceImpl implements InfoService {
         map.put("telephone", user.getTelephone());
         map.put("real_name", user.getRealName());
         List<Role> roleList = authService.getRoleList(user.getId());
-        String roles = "";
+        StringBuilder roles = new StringBuilder();
         if (roleList != null) {
             for (int i = 0; i < roleList.size(); i++) {
                 Role role = roleList.get(i);
-                roles += role.getName();
+                roles.append(role.getName());
                 if (i < roleList.size() - 1) {
-                    roles += ",";
+                    roles.append(",");
                 }
             }
         }
-        map.put("roles", roles);
+        map.put("roles", roles.toString());
         return map;
     }
 }
