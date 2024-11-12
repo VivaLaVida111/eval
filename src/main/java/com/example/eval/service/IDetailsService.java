@@ -1,11 +1,9 @@
 package com.example.eval.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.eval.entity.BigRulesStatistics;
-import com.example.eval.entity.Details;
+import com.example.eval.entity.*;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.eval.entity.DetailsFront;
-import com.example.eval.entity.EvalResult;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,4 +28,6 @@ public interface IDetailsService extends IService<Details> {
     Boolean update(Details detail);
 
     List<BigRulesStatistics> getBigRulesStatistics(String start, String end);
+
+    List<StreetStatistics> getStreetStatistics(String start, String end, Integer bigRuleId);
 }

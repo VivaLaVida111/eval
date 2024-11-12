@@ -2,10 +2,7 @@ package com.example.eval.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.eval.entity.BigRulesStatistics;
-import com.example.eval.entity.Details;
-import com.example.eval.entity.DetailsFront;
-import com.example.eval.entity.EvalResult;
+import com.example.eval.entity.*;
 import com.example.eval.service.IDetailsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +43,11 @@ public class DetailsController {
     @GetMapping("/bigRulesStatistics/{start}/{end}")
     public List<BigRulesStatistics> getBigRulesStatistics(@PathVariable String start, @PathVariable String end) {
         return detailsService.getBigRulesStatistics(start, end);
+    }
+
+    @GetMapping("/streetStatistics/{start}/{end}/{bigRuleId}")
+    public List<StreetStatistics> getStreetStatistics(@PathVariable String start, @PathVariable String end, @PathVariable Integer bigRuleId) {
+        return detailsService.getStreetStatistics(start, end, bigRuleId);
     }
 
     @PostMapping("/add")

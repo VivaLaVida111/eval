@@ -87,6 +87,11 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
         return detailsMapper.getBigRulesStatistics(start, end);
     }
 
+    @Override
+    public List<StreetStatistics> getStreetStatistics(String start, String end, Integer bigRuleId) {
+        return detailsMapper.getStreetStatistics(start, end, bigRuleId);
+    }
+
     /**
      * 根据街道名称查找详情
      * @param street 街道名称
