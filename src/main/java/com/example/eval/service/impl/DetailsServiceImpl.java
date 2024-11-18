@@ -89,7 +89,37 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
 
     @Override
     public List<StreetStatistics> getStreetStatistics(String start, String end, Integer bigRuleId) {
-        return detailsMapper.getStreetStatistics(start, end, bigRuleId);
+        List<String> streetNames = new ArrayList<>(Arrays.asList(
+                "金泉街道", "天回镇街道", "五块石街道", "抚琴街道",
+                "西华街道", "营门口街道", "凤凰山街道", "荷花池街道",
+                "九里堤街道", "沙河源街道", "驷马桥街道", "西安路街道", "茶店子街道"
+        ));
+
+        List<StreetStatistics> res;
+        res = detailsMapper.getStreetStatistics(start, end, bigRuleId);
+        if (res != null && res.size() == streetNames.size()) {
+            return res;
+        } else {
+            if (res == null) {
+                res = new ArrayList<>();
+            }
+            for (StreetStatistics s : res) {
+                streetNames.remove(s.getStreet());
+            }
+
+            QueryWrapper<BigRules> bigRulesQueryWrapper = new QueryWrapper<>();
+            bigRulesQueryWrapper.eq("id", bigRuleId);
+            BigRules bigRules = bigRulesMapper.selectOne(bigRulesQueryWrapper);
+            for (String street : streetNames) {
+                StreetStatistics resItem = new StreetStatistics();
+                resItem.setStreet(street);
+                resItem.setItem(bigRules.getItem());
+                resItem.setId(bigRuleId);
+                resItem.setScore(0.0);
+                res.add(resItem);
+            }
+        }
+        return res;
     }
 
     /**
