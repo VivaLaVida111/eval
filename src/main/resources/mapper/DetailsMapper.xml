@@ -26,7 +26,7 @@
     <select id="getStreetStatistics" resultType="com.example.eval.entity.StreetStatistics">
         SELECT br.id, br.item, grouped_data.score, grouped_data.street
         FROM (
-                 SELECT big_rules_id, SUM(d.subtotal) AS score, street
+                 SELECT big_rules_id, SUM(d.subtotal) + 100.0 AS score, street
                  FROM details d
                  WHERE `time` BETWEEN #{start} AND #{end}
                  <if test="id != null ">

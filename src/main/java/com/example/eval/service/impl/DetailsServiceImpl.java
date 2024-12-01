@@ -115,7 +115,7 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
                 resItem.setStreet(street);
                 resItem.setItem(bigRules.getItem());
                 resItem.setId(bigRuleId);
-                resItem.setScore(0.0);
+                resItem.setScore(100.0);
                 res.add(resItem);
             }
         }
