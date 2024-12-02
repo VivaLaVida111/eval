@@ -61,6 +61,10 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
     @Override
     public Boolean add(Details detail) {
         if(checkPermission(detail)) {
+            QueryWrapper<BigRules> bigRulesQueryWrapper = new QueryWrapper<>();
+            bigRulesQueryWrapper.eq("id", detail.getBigRulesId());
+            BigRules bigRules = bigRulesMapper.selectOne(bigRulesQueryWrapper);
+            detail.setSubtotal(detail.getInput() * bigRules.getPercentage() / 100);
             return detailsMapper.insert(detail) > 0;
         }
         return false;
@@ -77,6 +81,10 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
     @Override
     public Boolean update(Details detail) {
         if(checkPermission(detail)) {
+            QueryWrapper<BigRules> bigRulesQueryWrapper = new QueryWrapper<>();
+            bigRulesQueryWrapper.eq("id", detail.getBigRulesId());
+            BigRules bigRules = bigRulesMapper.selectOne(bigRulesQueryWrapper);
+            detail.setSubtotal(detail.getInput() * bigRules.getPercentage() / 100);
             return detailsMapper.updateById(detail) > 0;
         }
         return false;
@@ -217,7 +225,8 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
         for (Details details : detailsList) {
             DetailsFront detailsFront = new DetailsFront();
             detailsFront.setId(details.getId());
-            detailsFront.setCount(details.getCount());
+            //detailsFront.setCount(details.getCount());
+            detailsFront.setInput(details.getInput());
             detailsFront.setStreet(details.getStreet());
             detailsFront.setRemark(details.getRemark());
             detailsFront.setSubtotal(details.getSubtotal());

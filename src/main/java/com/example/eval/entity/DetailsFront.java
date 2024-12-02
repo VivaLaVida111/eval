@@ -25,7 +25,7 @@ public class DetailsFront implements Serializable {
 
     private SmallRules smallRules;
 
-    private Integer count;
+    private Double input;
 
     private String remark;
 

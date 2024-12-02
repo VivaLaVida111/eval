@@ -47,9 +47,9 @@ public class Generator {
                     details.setSmallRulesId(1);
                     BigRules bigRules = bigRulesService.getById(2);
                     SmallRules smallRules = smallRulesService.getById(1);
-                    Integer count = 1;
-                    details.setCount(count);
-                    Double subtotal = (-1) * bigRules.getPercentage() * smallRules.getPercentage() * count / 100 ;
+                    Double input = -2.0;
+                    details.setInput(input);
+                    Double subtotal = bigRules.getPercentage()  * input / 100 ;
                     details.setSubtotal(subtotal);
 
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

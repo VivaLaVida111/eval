@@ -62,7 +62,7 @@ public class DetailsController {
 
     @PostMapping("/update")
     public Boolean update(@RequestBody Details detail) {
-        return detailsService.updateById(detail);
+        return detailsService.update(detail);
     }
 }
 

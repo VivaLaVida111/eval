@@ -15,7 +15,7 @@ import lombok.Setter;
  * </p>
  *
  * @author luo
- * @since 2024-06-14
+ * @since 2024-12-01
  */
 @Getter
 @Setter
@@ -37,15 +37,16 @@ public class Details implements Serializable {
 
     private Integer smallRulesId;
 
-    private Integer count;
-
       @ApiModelProperty("备注")
       private String remark;
 
-      @ApiModelProperty("小计")
-      private Double subtotal;
+      @ApiModelProperty("前端管理员录入的数据")
+      private Double input;
 
     private LocalDateTime time;
+
+      @ApiModelProperty("input * 大项占比")
+      private Double subtotal;
 
 
 }
