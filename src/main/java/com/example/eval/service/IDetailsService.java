@@ -18,7 +18,7 @@ import java.util.List;
 public interface IDetailsService extends IService<Details> {
     List<DetailsFront> findAll();
     List<DetailsFront> findByStreet(String street);
-    Page<DetailsFront> findByTime(String start, String end, String street, int pageNum, int pageSize);
+    Page<DetailsFront> findByCondition(String start, String end, String street, String roles, int pageNum, int pageSize);
     List<EvalResult> countScore(String start, String end);
 
     Boolean add(Details detail);

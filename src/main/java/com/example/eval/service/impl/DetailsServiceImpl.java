@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -148,37 +149,52 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
      * @return 符合条件的Details列表
      */
     @Override
-    public Page<DetailsFront> findByTime(String start, String end, String street, int pageNum, int pageSize) {
-        // 创建查询条件
-        QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
-        queryWrapper.ge("`time`", start);
-        queryWrapper.le("`time`", end);
-        if (street != null && !street.equals("")) {
-            queryWrapper.eq("street", street);
-        }
+    public Page<DetailsFront> findByCondition(String start, String end, String street, String roles, int pageNum, int pageSize) {
+            // 创建查询条件
+            QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
+            queryWrapper.ge("`time`", start);
+            queryWrapper.le("`time`", end);
+            if (street != null && !street.equals("")) {
+                queryWrapper.eq("street", street);
+            }
 
-        // 创建分页对象
-        Page<Details> page = new Page<>(pageNum, pageSize);
+            // 解析roles字符串
+            if (roles != null && !roles.equals("")) {
+                List<String> rolesList = Arrays.asList(roles.split(","));
+                // 查询BigRules数据库
+                QueryWrapper<BigRules> bigRulesQueryWrapper = new QueryWrapper<>();
+                bigRulesQueryWrapper.in("item", rolesList);
+                List<BigRules> bigRulesList = bigRulesMapper.selectList(bigRulesQueryWrapper);
+                // 获取BigRules中的id
+                List<Integer> bigRulesIds = bigRulesList.stream().map(BigRules::getId).collect(Collectors.toList());
+                // 将id添加到Details的查询条件中
+                if (!bigRulesIds.isEmpty()) {
+                    queryWrapper.in("big_rules_id", bigRulesIds);
+                }
+            }
 
-        // 执行分页查询
-        Page<Details> resultPage = detailsMapper.selectPage(page, queryWrapper);
+            // 创建分页对象
+            Page<Details> page = new Page<>(pageNum, pageSize);
 
-        // 解析查询结果
-        List<DetailsFront> detailsFrontList = parse(resultPage.getRecords());
+            // 执行分页查询
+            Page<Details> resultPage = detailsMapper.selectPage(page, queryWrapper);
 
-        // 计算总计
-//        DetailsFront total = new DetailsFront();
-//        total.setStreet(street);
-//        total.setRemark("总计");
-//        total.setSubtotal(100.0 + detailsFrontList.stream().mapToDouble(DetailsFront::getSubtotal).sum());
-//        detailsFrontList.add(total);
+            // 解析查询结果
+            List<DetailsFront> detailsFrontList = parse(resultPage.getRecords());
 
-        // 将解析后的列表封装到新的 Page 对象中
-        Page<DetailsFront> resultFrontPage = new Page<>(pageNum, pageSize, resultPage.isSearchCount());
-        resultFrontPage.setTotal(resultPage.getTotal());
-        resultFrontPage.setRecords(detailsFrontList);
+            // 计算总计
+            //    DetailsFront total = new DetailsFront();
+            //    total.setStreet(street);
+            //    total.setRemark("总计");
+            //    total.setSubtotal(100.0 + detailsFrontList.stream().mapToDouble(DetailsFront::getSubtotal).sum());
+            //    detailsFrontList.add(total);
 
-        return resultFrontPage;
+            // 将解析后的列表封装到新的 Page 对象中
+            Page<DetailsFront> resultFrontPage = new Page<>(pageNum, pageSize, resultPage.isSearchCount());
+            resultFrontPage.setTotal(resultPage.getTotal());
+            resultFrontPage.setRecords(detailsFrontList);
+
+            return resultFrontPage;
     }
 
     @Override

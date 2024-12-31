@@ -31,8 +31,11 @@ public class DetailsController {
         return detailsService.findByStreet(street);
     }
     @GetMapping("/period/{start}/{end}/{pageNum}/{pageSize}")
-    public Page<DetailsFront> findByTime(@PathVariable String start, @PathVariable String end, @PathVariable Integer pageNum, @PathVariable Integer pageSize, @RequestParam(required = false, defaultValue = "") String street) {
-        return detailsService.findByTime(start, end, street, pageNum, pageSize);
+    public Page<DetailsFront> findByCondition(@PathVariable String start, @PathVariable String end,
+                                         @PathVariable Integer pageNum, @PathVariable Integer pageSize,
+                                         @RequestParam(required = false, defaultValue = "") String street,
+                                         @RequestParam(required = false, defaultValue = "") String roles) {
+        return detailsService.findByCondition(start, end, street, roles, pageNum, pageSize);
     }
 
     @GetMapping("/score/{start}/{end}")
