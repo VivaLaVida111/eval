@@ -1,10 +1,7 @@
 package com.example.eval.mapper;
 
-import com.example.eval.entity.Details;
-import com.example.eval.entity.BigRulesStatistics;
+import com.example.eval.entity.*;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.eval.entity.EvalResult;
-import com.example.eval.entity.StreetStatistics;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +22,6 @@ public interface DetailsMapper extends BaseMapper<Details> {
     List<BigRulesStatistics> getBigRulesStatistics(@Param("start") String start, @Param("end") String end);
 
     List<StreetStatistics> getStreetStatistics(@Param("start") String start, @Param("end") String end, @Param("id") Integer bigRuleId);
+
+    DetailsFront countTotalByCondition(@Param("start") String start, @Param("end") String end, @Param("street") String street, @Param("ids") String bigRuleIds);
 }

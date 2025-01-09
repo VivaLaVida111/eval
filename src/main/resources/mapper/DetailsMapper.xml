@@ -37,4 +37,18 @@
             LEFT JOIN big_rules br
             ON grouped_data.big_rules_id = br.id
     </select>
+
+    <select id="countTotalByCondition" resultType="com.example.eval.entity.DetailsFront">
+        SELECT "总计" as street, sum(subtotal) as subtotal FROM details WHERE `time` BETWEEN #{start} AND #{end}
+        <if test=" street != null and street != '' ">
+            AND street= #{street}
+        </if>
+        <if test=" ids != null and ids != '' and ids != ',' ">
+            AND big_rules_id IN (
+                #{ids}
+            )
+        </if>
+
+    </select>
+
 </mapper>

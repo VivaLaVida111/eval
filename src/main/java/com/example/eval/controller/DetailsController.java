@@ -1,13 +1,19 @@
 package com.example.eval.controller;
 
 
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.URLUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.eval.entity.*;
 import com.example.eval.service.IDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -31,11 +37,30 @@ public class DetailsController {
         return detailsService.findByStreet(street);
     }
     @GetMapping("/period/{start}/{end}/{pageNum}/{pageSize}")
-    public Page<DetailsFront> findByCondition(@PathVariable String start, @PathVariable String end,
+    public Page<DetailsFront> findPageByCondition(@PathVariable String start, @PathVariable String end,
                                          @PathVariable Integer pageNum, @PathVariable Integer pageSize,
                                          @RequestParam(required = false, defaultValue = "") String street,
                                          @RequestParam(required = false, defaultValue = "") String roles) {
-        return detailsService.findByCondition(start, end, street, roles, pageNum, pageSize);
+        return detailsService.findPageByCondition(start, end, street, roles, pageNum, pageSize);
+    }
+
+    @GetMapping("/period/excel/{start}/{end}")
+    public void findPageByCondition(HttpServletResponse response,
+                                                  @PathVariable String start, @PathVariable String end,
+                                                  @RequestParam(required = false, defaultValue = "") String street,
+                                                  @RequestParam(required = false, defaultValue = "") String roles) throws IOException {
+        List<Details4Display> details = detailsService.findByCondition(start, end, street, roles);
+        // 设置文本内省
+        response.setContentType("application/vnd.ms-excel");
+        // 设置字符编码
+        response.setCharacterEncoding("utf-8");
+        String name = start + "至" + end
+                      + (!"".equals(street) ? street : "全区")
+                      + (!"".equals(roles) && !"viewer".equals(roles) && !roles.contains("管理者")  ? roles : "")
+                      + "体征事件.xlsx";
+        String encodedFileName = URLUtil.encode(name, CharsetUtil.CHARSET_UTF_8);
+        response.setHeader("Content-disposition",  "attachment;filename="+encodedFileName);
+        EasyExcel.write(response.getOutputStream(), Details4Display.class).sheet(name).doWrite(details);
     }
 
     @GetMapping("/score/{start}/{end}")
