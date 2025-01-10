@@ -9,6 +9,7 @@ logs/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/httpRequests/
 *.iws
 *.iml
 *.ipr

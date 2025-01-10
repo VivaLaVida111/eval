@@ -45,7 +45,7 @@ public class DetailsController {
     }
 
     @GetMapping("/period/excel/{start}/{end}")
-    public void findPageByCondition(HttpServletResponse response,
+    public void findByCondition(HttpServletResponse response,
                                                   @PathVariable String start, @PathVariable String end,
                                                   @RequestParam(required = false, defaultValue = "") String street,
                                                   @RequestParam(required = false, defaultValue = "") String roles) throws IOException {
@@ -54,12 +54,14 @@ public class DetailsController {
         response.setContentType("application/vnd.ms-excel");
         // 设置字符编码
         response.setCharacterEncoding("utf-8");
-        String name = start + "至" + end
-                      + (!"".equals(street) ? street : "全区")
-                      + (!"".equals(roles) && !"viewer".equals(roles) && !roles.contains("管理者")  ? roles : "")
-                      + "体征事件.xlsx";
+        String name = (!"".equals(start) && start.length() > 10 ? start.substring(0, 10) : start)
+                    + "至"
+                    + (!"".equals(end) && end.length() > 10 ? end.substring(0, 10) : end)
+                    + (!"".equals(street) ? street : "全区")
+                    + (!"".equals(roles) && !"viewer".equals(roles) && !roles.contains("管理者")  ? roles : "")
+                    + "体征事件.xlsx";
         String encodedFileName = URLUtil.encode(name, CharsetUtil.CHARSET_UTF_8);
-        response.setHeader("Content-disposition",  "attachment;filename="+encodedFileName);
+        response.setHeader("content-disposition",  "attachment;filename="+encodedFileName);
         EasyExcel.write(response.getOutputStream(), Details4Display.class).sheet(name).doWrite(details);
     }
 
