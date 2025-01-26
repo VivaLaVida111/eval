@@ -1,8 +1,11 @@
 spring:
   datasource:
-    username: root
-    password: jinNIU123456!
-    url: jdbc:mysql://101.37.246.72:3306/eval?useSSL=true&serverTimezone=UTC
+    username: jncsgj
+    password: JNcsgj@com123!
+    url: jdbc:mysql://172.54.134.232:3306/eval?useSSL=true&serverTimezone=UTC
+#    username: root
+#    password: jinNIU123456!
+#    url: jdbc:mysql://101.37.246.72:3306/eval?useSSL=true&serverTimezone=UTC
     #url: jdbc:mysql://localhost:3306/dumpsite?useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
