@@ -23,5 +23,5 @@ public interface DetailsMapper extends BaseMapper<Details> {
 
     List<StreetStatistics> getStreetStatistics(@Param("start") String start, @Param("end") String end, @Param("id") Integer bigRuleId);
 
-    DetailsFront countTotalByCondition(@Param("start") String start, @Param("end") String end, @Param("street") String street, @Param("ids") String bigRuleIds);
+    DetailsFront countTotalByCondition(@Param("start") String start, @Param("end") String end, @Param("street") String street, @Param("ids") List<String> ids);
 }

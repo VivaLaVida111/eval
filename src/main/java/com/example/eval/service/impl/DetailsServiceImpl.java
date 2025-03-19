@@ -143,6 +143,35 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
         return parse2Front(detailsMapper.selectList(queryWrapper));
     }
 
+    private DetailsFront countTotalByCondition(String start, String end, String street, List<Integer> ids) {
+        // 创建查询条件构造器
+        QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
+
+        // 添加时间范围条件
+        queryWrapper.between("time", start, end);
+
+        // 添加街道条件
+        if (street != null && !street.isEmpty()) {
+            queryWrapper.eq("street", street);
+        }
+
+        // 添加 big_rules_id IN 条件
+        if (ids != null && !ids.isEmpty()) {
+            queryWrapper.in("big_rules_id", ids);
+        }
+
+        // 执行查询
+        List<Details> list = detailsMapper.selectList(queryWrapper);
+        Double total = 0.0;
+        for (Details details : list) {
+            total += details.getSubtotal();
+        }
+        DetailsFront res = new DetailsFront();
+        res.setSubtotal(total);
+        res.setStreet(street);
+        return res;
+    }
+
     /**
      * 根据时间查找详情, street,roles为可选项
      * @param `time` 时间戳
@@ -174,8 +203,14 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
             }
         }
         // 先查询总计结果
-        String ids = bigRulesIds.isEmpty()? "" : bigRulesIds.stream().map(String::valueOf).collect(Collectors.joining(","));
-        DetailsFront count = detailsMapper.countTotalByCondition(start, end, street, ids);
+//        String ids = bigRulesIds.isEmpty()? "" : bigRulesIds.stream().map(String::valueOf).collect(Collectors.joining(","));
+//        DetailsFront count;
+//        if (!bigRulesIds.isEmpty()) {
+//            List<String> idList = Arrays.asList(ids.split(","));
+//            count = detailsMapper.countTotalByCondition(start, end, street, idList);
+//        }
+//        count = detailsMapper.countTotalByCondition(start, end, street, null);
+        DetailsFront count = countTotalByCondition(start, end, street, bigRulesIds);
         Details4Display total = new Details4Display();
         total.setStreet("总计");
         total.setSubtotal(count.getSubtotal());
@@ -216,8 +251,15 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
             }
         }
         // 先查询总计结果
-        String ids = bigRulesIds.isEmpty()? "" : bigRulesIds.stream().map(String::valueOf).collect(Collectors.joining(","));
-        DetailsFront count = detailsMapper.countTotalByCondition(start, end, street, ids);
+//        String ids = bigRulesIds.isEmpty()? "" : bigRulesIds.stream().map(String::valueOf).collect(Collectors.joining(","));
+//        DetailsFront count;
+//        if (bigRulesIds != null && !bigRulesIds.isEmpty()) {
+//            // 将逗号分隔的字符串转换为List
+//            List<String> idList = Arrays.asList(ids.split(","));
+//            count = detailsMapper.countTotalByCondition(start, end, street, idList);
+//        }
+//        count = detailsMapper.countTotalByCondition(start, end, street, null);
+        DetailsFront count = countTotalByCondition(start, end, street, bigRulesIds);
 
         // 创建分页对象
         Page<Details> page = new Page<>(pageNum, pageSize);

@@ -44,9 +44,11 @@
             AND street= #{street}
         </if>
         <if test=" ids != null and ids != '' and ids != ',' ">
-            AND big_rules_id IN (
-                #{ids}
-            )
+            AND big_rules_id IN
+            <foreach item='id' collection='list' open="(" separator="," close=")">
+                #{id}
+            </foreach>
+
         </if>
 
     </select>
