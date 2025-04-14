@@ -93,7 +93,32 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
 
     @Override
     public List<BigRulesStatistics> getBigRulesStatistics(String start, String end) {
-        return detailsMapper.getBigRulesStatistics(start, end);
+        List<String> bigRules = new ArrayList<>(Arrays.asList(
+                "环境卫生", "市容秩序", "广告招牌", "扬尘治理",
+                "网络理政", "油烟治理", "执法案件办理",
+                "数字化常态监管", "固体废弃物处置及垃圾分类"
+        ));
+        List<BigRulesStatistics> res = detailsMapper.getBigRulesStatistics(start, end);
+        if (res != null && res.size() == bigRules.size()) {
+            return res;
+        } else {
+            if (res == null) {
+                res = new ArrayList<>();
+            }
+            for (BigRulesStatistics s : res) {
+                bigRules.remove(s.getItem());
+            }
+
+            for (String bigRule : bigRules) {
+                BigRulesStatistics resItem = new BigRulesStatistics();
+                resItem.setItem(bigRule);
+                resItem.setScore(100.0);
+                res.add(resItem);
+            }
+        }
+        // 对res 按照score进行倒序排序
+        res.sort(Comparator.comparing(BigRulesStatistics::getScore).reversed());
+        return res;
     }
 
     @Override
