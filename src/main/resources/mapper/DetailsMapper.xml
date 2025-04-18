@@ -14,7 +14,7 @@
     <select id="getBigRulesStatistics" resultType="com.example.eval.entity.BigRulesStatistics">
         SELECT br.id, br.item, grouped_data.score
         FROM (
-                 SELECT big_rules_id, SUM(d.`input`) + 100.0 AS score
+                 SELECT big_rules_id, SUM(d.`input`) / 13.0 + 100.0 AS score
                  FROM details d
                  WHERE `time` BETWEEN #{start} AND #{end}
                  GROUP BY big_rules_id

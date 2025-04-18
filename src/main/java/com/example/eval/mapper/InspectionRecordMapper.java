@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author luo
- * @since 2025-04-14
+ * @since 2025-04-18
  */
 @Mapper
 public interface InspectionRecordMapper extends BaseMapper<InspectionRecord> {
