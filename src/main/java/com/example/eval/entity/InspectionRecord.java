@@ -45,7 +45,7 @@ public class InspectionRecord implements Serializable {
       private String street;
 
       @ApiModelProperty("问题属性")
-      private String atrribute;
+      private String attribute;
 
       @ApiModelProperty("巡查状态")
       private String patrolStatus;
