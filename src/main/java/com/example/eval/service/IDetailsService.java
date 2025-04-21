@@ -32,4 +32,7 @@ public interface IDetailsService extends IService<Details> {
     List<BigRulesStatistics> getBigRulesStatistics(String start, String end);
 
     List<StreetStatistics> getStreetStatistics(String start, String end, Integer bigRuleId);
+
+    List<SmallRuleStatistics> getSmallRuleStatistics(String start, String end, Integer bigRuleId);
+
 }

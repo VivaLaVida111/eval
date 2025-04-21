@@ -131,6 +131,17 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
         return res;
     }
 
+    @Override
+    public List<SmallRuleStatistics> getSmallRuleStatistics(String start, String end, Integer bigRuleId) {
+        System.out.println("yes");
+        System.out.println(bigRuleId);
+        List<SmallRuleStatistics> res = detailsMapper.getSmallRuleStatistics(bigRuleId);
+//        List<SmallRuleStatistics> res = detailsMapper.getSmallRuleStatistics(start,end,bigRuleId);
+        System.out.println(res);
+        System.out.println("yes2");
+        return res;
+    }
+
     /**
      * 根据街道名称查找详情
      * @param street 街道名称

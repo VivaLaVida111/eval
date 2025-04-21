@@ -80,6 +80,12 @@ public class DetailsController {
         return detailsService.getStreetStatistics(start, end, bigRuleId);
     }
 
+    //按大规则id查询其全部小规则评分
+    @GetMapping("/smallRuleStatistics/{start}/{end}/{bigRuleId}")
+    public List<SmallRuleStatistics> getSmallRuleStatistics(@PathVariable String start, @PathVariable String end, @PathVariable Integer bigRuleId) {
+        return detailsService.getSmallRuleStatistics(start, end, bigRuleId);
+    }
+
     @PostMapping("/add")
     public Boolean add(@RequestBody Details detail) {
         return detailsService.add(detail);

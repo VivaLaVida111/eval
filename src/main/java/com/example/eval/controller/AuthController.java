@@ -64,6 +64,7 @@ public class AuthController {
         SimpleDateFormat format_time = new SimpleDateFormat();
         logger.warn("AuthController requestTime:" + format_time.format(new Date(System.currentTimeMillis())));
         String username = userLoginParam.getName();
+        System.out.println("yes");
         System.out.println("登陆人员账号："+username);
         String password = userLoginParam.getPassword();
         Map<String, String> tokenMap = new HashMap<>();

@@ -19,7 +19,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-  @TableName("small_rules")
+@TableName("small_rules")
 @ApiModel(value = "SmallRules对象", description = "考评系统小项评分规则")
 public class SmallRules implements Serializable {
 
