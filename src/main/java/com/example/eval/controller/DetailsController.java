@@ -54,11 +54,13 @@ public class DetailsController {
         response.setContentType("application/vnd.ms-excel");
         // 设置字符编码
         response.setCharacterEncoding("utf-8");
+        // 替换 roles 中的逗号为 "和"
+        String safeRoles = roles.contains(",") ? roles.replace(",", "和") : roles;
         String name = (!"".equals(start) && start.length() > 10 ? start.substring(0, 10) : start)
                     + "至"
                     + (!"".equals(end) && end.length() > 10 ? end.substring(0, 10) : end)
                     + (!"".equals(street) ? street : "全区")
-                    + (!"".equals(roles) && !"viewer".equals(roles) && !roles.contains("管理者")  ? roles : "")
+                    + (!"".equals(safeRoles) && !"viewer".equals(safeRoles) && !safeRoles.contains("管理者")  ? safeRoles : "")
                     + "体征事件.xlsx";
         String encodedFileName = URLUtil.encode(name, CharsetUtil.CHARSET_UTF_8);
         response.setHeader("content-disposition",  "attachment;filename="+encodedFileName);

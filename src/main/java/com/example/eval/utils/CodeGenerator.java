@@ -19,7 +19,7 @@ public class CodeGenerator {
     }
 
     private static void generate() {
-        FastAutoGenerator.create("jdbc:mysql://101.37.246.72:3306/eval?serverTimezone=GMT%2B8", "root", "jinNIU123456!")
+        FastAutoGenerator.create("jdbc:mysql://172.54.134.232:3306/eval?serverTimezone=GMT%2B8", "jncsgj", "JNcsgj@com123!")
                 .globalConfig(builder -> {
                     builder.author("luo") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
@@ -36,7 +36,7 @@ public class CodeGenerator {
                     builder.mapperBuilder().enableMapperAnnotation();//为mapper添加@Mapper注解
                     builder.controllerBuilder().enableHyphenStyle()//开启驼峰转连字符
                             .enableRestStyle();//为Controller添加@RestController注解
-                    builder.addInclude("details") // 设置需要生成的表名
+                    builder.addInclude("inspection_record") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_"); // 设置过滤表前缀
                 })
 //                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
