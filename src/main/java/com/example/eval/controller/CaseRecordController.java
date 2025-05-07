@@ -26,6 +26,8 @@ public class CaseRecordController {
     // 新增
     @PostMapping
     public Boolean create(@RequestBody CaseRecord caseRecord) {
+//        System.out.println("Street:"+caseRecord.getStreet()+ ",CaseNumber:"+caseRecord.getCaseNumber()+
+//                ",Remark:"+caseRecord.getRemark()+ ",Reason:"+caseRecord.getReason());
         return caseRecordService.save(caseRecord);
     }
 

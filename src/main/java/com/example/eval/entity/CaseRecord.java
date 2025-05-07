@@ -20,7 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-  @TableName("case_record")
+@TableName("case_record")
 @ApiModel(value = "CaseRecord对象", description = "案件记录表")
 public class CaseRecord implements Serializable {
 

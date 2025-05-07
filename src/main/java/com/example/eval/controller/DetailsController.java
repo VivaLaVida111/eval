@@ -90,6 +90,9 @@ public class DetailsController {
 
     @PostMapping("/add")
     public Boolean add(@RequestBody Details detail) {
+//        System.out.println("Street:"+detail.getStreet()+",ResultId:"+detail.getResultId()+
+//                ",BigRulesId:"+detail.getBigRulesId()+",SmallRulesId:"+detail.getSmallRulesId()+
+//                ",Remark:"+detail.getRemark()+",Input:"+detail.getInput()+",Subtotal:"+detail.getSubtotal());
         return detailsService.add(detail);
     }
 

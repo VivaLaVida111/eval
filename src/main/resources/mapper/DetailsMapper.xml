@@ -22,7 +22,6 @@
         LEFT JOIN big_rules br
         ON grouped_data.big_rules_id = br.id
     </select>
-
     <select id="getStreetStatistics" resultType="com.example.eval.entity.StreetStatistics">
         SELECT br.id, br.item, grouped_data.score, grouped_data.street
         FROM (

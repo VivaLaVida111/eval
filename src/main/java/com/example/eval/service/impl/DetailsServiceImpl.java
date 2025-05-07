@@ -158,12 +158,8 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
 
     @Override
     public List<SmallRuleStatistics> getSmallRuleStatistics(String start, String end, Integer bigRuleId) {
-        System.out.println("yes");
-        System.out.println(bigRuleId);
         List<SmallRuleStatistics> res = detailsMapper.getSmallRuleStatistics(bigRuleId);
 //        List<SmallRuleStatistics> res = detailsMapper.getSmallRuleStatistics(start,end,bigRuleId);
-        System.out.println(res);
-        System.out.println("yes2");
         return res;
     }
 
