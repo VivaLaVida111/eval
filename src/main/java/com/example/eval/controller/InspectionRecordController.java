@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -61,7 +63,39 @@ public class InspectionRecordController {
     public Boolean update(@RequestBody InspectionRecord InspectionRecord) {
         return inspectionRecordService.updateById(InspectionRecord);
     }
-    
+//    @GetMapping("/by-system")
+//    public List<InspectionRecord> getAllBySystem(@RequestParam(required = false) String systemName) {
+//        List<InspectionRecord> all = inspectionRecordService.list();
+//        if (systemName == null || systemName.isEmpty()) return all;
+//        return all.stream()
+//                .filter(r -> systemName.equals(r.getSystemName()))
+//                .collect(Collectors.toList());
+//    }
+@GetMapping("/by-system")
+public List<InspectionRecord> getAllBySystem(@RequestParam(required = false) String systemName) {
+
+    // 获取当天日期（本地时区）
+    LocalDate today = LocalDate.now();
+
+    return inspectionRecordService.list()
+            .stream()
+            // ① 过滤：只保留 patrolTime 在“当天”的记录
+            .filter(r -> {
+                LocalDateTime t = r.getPatrolTime();
+                if (t == null) {
+                    return false;
+                }
+                return today.equals(t.toLocalDate());   // 当天才保留
+            })
+            // ② 按 systemName 过滤（如果传了）
+            .filter(r -> {
+                if (systemName == null || systemName.isEmpty()) {
+                    return true;
+                }
+                return systemName.equals(r.getSystemName());
+            })
+            .collect(Collectors.toList());
+}
     /**
      * 统计问题来源数量
      *

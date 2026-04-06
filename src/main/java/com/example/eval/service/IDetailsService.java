@@ -35,4 +35,5 @@ public interface IDetailsService extends IService<Details> {
 
     List<SmallRuleStatistics> getSmallRuleStatistics(String start, String end, Integer bigRuleId);
 
+    List<SmallRuleStatistics> getStreetSmallRulesStatistics(String start, String end, Integer bigRuleId, String street);
 }

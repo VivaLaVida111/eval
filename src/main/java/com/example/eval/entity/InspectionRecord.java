@@ -65,5 +65,6 @@ public class InspectionRecord implements Serializable {
       @ApiModelProperty("整改照片")
       private String reformPic;
 
-
+      @ApiModelProperty("子系统")
+      private String systemName;
 }

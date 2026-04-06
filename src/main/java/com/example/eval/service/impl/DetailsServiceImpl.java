@@ -95,8 +95,8 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
     public List<BigRulesStatistics> getBigRulesStatistics(String start, String end) {
         List<String> bigRules = new ArrayList<>(Arrays.asList(
                 "环境卫生", "市容秩序", "广告招牌", "扬尘治理",
-                "网络理政", "油烟治理", "执法案件办理",
-                "数字化常态监管", "固体废弃物处置及垃圾分类"
+                "网络理政", "油烟治理", "违法建设",
+                "数字城管", "共享单车"
         ));
         List<BigRulesStatistics> res = detailsMapper.getBigRulesStatistics(start, end);
         if (res != null && res.size() == bigRules.size()) {
@@ -162,7 +162,12 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
 //        List<SmallRuleStatistics> res = detailsMapper.getSmallRuleStatistics(start,end,bigRuleId);
         return res;
     }
-
+    @Override
+    public List<SmallRuleStatistics> getStreetSmallRulesStatistics(String start, String end, Integer bigRuleId, String street) {
+        // 暂时 start / end 未参与过滤，预留参数以便后续拓展
+        List<SmallRuleStatistics> res = detailsMapper.getStreetSmallRulesStatistics(bigRuleId, street);
+        return res;
+    }
     /**
      * 根据街道名称查找详情
      * @param street 街道名称

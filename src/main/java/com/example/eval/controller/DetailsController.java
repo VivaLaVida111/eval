@@ -87,7 +87,14 @@ public class DetailsController {
     public List<SmallRuleStatistics> getSmallRuleStatistics(@PathVariable String start, @PathVariable String end, @PathVariable Integer bigRuleId) {
         return detailsService.getSmallRuleStatistics(start, end, bigRuleId);
     }
-
+    @GetMapping("/streetSmallRulesStatistics/{start}/{end}/{bigRuleId}/{street}")
+    public List<SmallRuleStatistics> getStreetSmallRulesStatistics(
+            @PathVariable String start,
+            @PathVariable String end,
+            @PathVariable Integer bigRuleId,
+            @PathVariable String street) {
+        return detailsService.getStreetSmallRulesStatistics(start, end, bigRuleId, street);
+    }
     @PostMapping("/add")
     public Boolean add(@RequestBody Details detail) {
 //        System.out.println("Street:"+detail.getStreet()+",ResultId:"+detail.getResultId()+

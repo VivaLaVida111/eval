@@ -47,7 +47,21 @@
         LEFT JOIN small_rules sr
         ON grouped_data.id = sr.id
     </select>
-<!--    <select id="getSmallRuleStatistics" resultType="com.example.eval.entity.SmallRuleStatistics">-->
+    <select id="getStreetSmallRulesStatistics" resultType="com.example.eval.entity.SmallRuleStatistics">
+        SELECT grouped_data.id, grouped_data.score, sr.item
+        FROM (
+             SELECT small_rules_id AS id, SUM(d.`input`) AS score
+             FROM details d
+             WHERE big_rules_id = #{id}
+               AND d.street = #{street}
+             GROUP BY small_rules_id
+         ) AS grouped_data
+        LEFT JOIN small_rules sr
+        ON grouped_data.id = sr.id
+    </select>
+
+
+    <!--    <select id="getSmallRuleStatistics" resultType="com.example.eval.entity.SmallRuleStatistics">-->
 <!--        SELECT grouped_data.id, grouped_data.score, sr.item-->
 <!--        FROM (-->
 <!--            SELECT small_rules_id AS id, SUM(d.`input`) AS score-->
