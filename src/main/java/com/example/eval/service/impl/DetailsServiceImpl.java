@@ -362,7 +362,7 @@ public class DetailsServiceImpl extends ServiceImpl<DetailsMapper, Details> impl
         List<DetailsFront> detailsFrontList = new ArrayList<>();
         for (Details details : detailsList) {
             DetailsFront detailsFront = new DetailsFront();
-            //detailsFront.setId(details.getId());
+            detailsFront.setId(details.getId());
             //detailsFront.setCount(details.getCount());
             detailsFront.setInput(details.getInput());
             detailsFront.setStreet(details.getStreet());

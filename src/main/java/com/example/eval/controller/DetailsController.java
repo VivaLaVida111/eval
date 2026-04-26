@@ -41,6 +41,13 @@ public class DetailsController {
                                          @PathVariable Integer pageNum, @PathVariable Integer pageSize,
                                          @RequestParam(required = false, defaultValue = "") String street,
                                          @RequestParam(required = false, defaultValue = "") String roles) {
+        Page<DetailsFront> result = detailsService.findPageByCondition(start, end, street, roles, pageNum, pageSize);
+        if (result.getRecords() != null && !result.getRecords().isEmpty()) {
+            DetailsFront first = result.getRecords().get(0);
+            System.out.println("DetailsFront id: " + first.getId());
+            System.out.println("DetailsFront street: " + first.getStreet());
+            System.out.println("DetailsFront full: " + first);
+        }
         return detailsService.findPageByCondition(start, end, street, roles, pageNum, pageSize);
     }
 
