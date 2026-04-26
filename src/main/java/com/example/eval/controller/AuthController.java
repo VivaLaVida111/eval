@@ -88,6 +88,31 @@ public class AuthController {
         return ResponseDataUtil.Success(tokenMap);
     }
 
+    @PostMapping("/login_csgj")
+    public ResponseData<Map<String, String>> loginWithoutPwd(@RequestBody UserLoginParam body) {
+        String name = body.getName();
+        if (name == null) {
+            return ResponseDataUtil.Error();
+        }
+
+        // 尝试用传入的账号登录，不存在则 fallback 到兜底账号
+        LoginResult res = authService.pswFreeLogin(name);
+        if (res.getToken() == null) {
+            // 该账号在 eval 系统中不存在，使用兜底账号
+            res = authService.pswFreeLogin("333666999");
+        }
+
+        if (res.getToken() == null) {
+            // 兜底账号也有问题
+            return ResponseDataUtil.Error();
+        }
+
+        Map<String, String> tokenMap = infoService.getInfo();
+        tokenMap.put("token", res.getToken());
+        tokenMap.put("tokenHead", tokenHead);
+        return ResponseDataUtil.Success(tokenMap);
+    }
+
     @PostMapping("/getInfo")
     public ResponseData<Map<String, String>> getInfo(@RequestBody String token) {
         Map<String, String> tokenMap = infoService.getInfo();

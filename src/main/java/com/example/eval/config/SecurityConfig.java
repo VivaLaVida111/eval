@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs/**"
                 )
                 .permitAll()
-                .antMatchers("/sms/send/{phone}", "/sms/validate/{phone}/{code}", "/sms/changePwd", "/sms/*", "/auth/login", "/auth/register","/ggzp/mainInfo","/shenlvye/*","/cclj/*","/hwzy/*","/location/*","/event/*","/event-status/*","/shenlvye/getPeriodRecordByPage/*","/lzj/getWarning","/whitelist/list","/auth/getAccessToken","/shenlvye/getShenlvyeTwoSitesExcel/{start}/{end}","/shenlvye/getShenlvyeBySiteExcel/{start}/{end}/{siteName}")// 允许匿名访问
+                .antMatchers("/sms/send/{phone}", "/sms/validate/{phone}/{code}", "/sms/changePwd", "/sms/*", "/auth/login","/auth/login_csgj", "/auth/register","/ggzp/mainInfo","/shenlvye/*","/cclj/*","/hwzy/*","/location/*","/event/*","/event-status/*","/shenlvye/getPeriodRecordByPage/*","/lzj/getWarning","/whitelist/list","/auth/getAccessToken","/shenlvye/getShenlvyeTwoSitesExcel/{start}/{end}","/shenlvye/getShenlvyeBySiteExcel/{start}/{end}/{siteName}")// 允许匿名访问
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
                 .permitAll()
